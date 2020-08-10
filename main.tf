@@ -141,13 +141,13 @@ resource "aws_lb_target_group" "default" {
 
 resource "aws_lb_target_group_attachment" "web-1" {
   target_group_arn = aws_lb_target_group.default.arn
-  target_id = aws_instance.LamoMama.private_ip
+  target_id = aws_instance.web-1.private_ip
   port = 80
 }
 
 resource "aws_lb_target_group_attachment" "web-2" {
   target_group_arn = aws_lb_target_group.default.arn
-  target_id = aws_instance.example.private_ip
+  target_id = aws_instance.web-2.private_ip
   port = 80
 }
 
