@@ -139,13 +139,13 @@ resource "aws_lb_target_group" "default" {
   )
 }
 
-resource "aws_lb_target_group_attachment" "LamoMama" {
+resource "aws_lb_target_group_attachment" "web-1" {
   target_group_arn = aws_lb_target_group.default.arn
   target_id = aws_instance.LamoMama.private_ip
   port = 80
 }
 
-resource "aws_lb_target_group_attachment" "example" {
+resource "aws_lb_target_group_attachment" "web-2" {
   target_group_arn = aws_lb_target_group.default.arn
   target_id = aws_instance.example.private_ip
   port = 80
@@ -268,7 +268,7 @@ resource "aws_security_group" "ssh_rules" {
 }
 
 
-resource "aws_instance" "example" {
+resource "aws_instance" "web-2" {
   ami      = "ami-0a7f1556c36aaf776"
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_rules.id,aws_security_group.ssh_rules.id]
@@ -278,7 +278,7 @@ resource "aws_instance" "example" {
  }
 
 
-resource "aws_instance" "LamoMama" {
+resource "aws_instance" "web-1" {
  ami      = "ami-0a7f1556c36aaf776"
  instance_type = "t2.micro"
  vpc_security_group_ids = [aws_security_group.ssh_rules.id,aws_security_group.web_rules.id]
