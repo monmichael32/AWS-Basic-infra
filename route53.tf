@@ -16,9 +16,7 @@ resource "aws_route53_record" "AWS-Basic-infra" {
   type    = "CNAME"
   ttl     = "60"
   records = [aws_lb.default.dns_name]
-  #tags = {
-    #Environment = "YoMama"
-  #}
+ 
 }
 
   
