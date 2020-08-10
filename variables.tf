@@ -1,7 +1,7 @@
 variable "namespace" {
   type        = string
   description = "Namespace (e.g. `eg` or `cp`)"
-  default     = "AWS-Basic-infra"
+  default     = "infra"
 }
 
 variable "stage" {
@@ -19,7 +19,7 @@ variable "environment" {
 variable "name" {
   type        = string
   description = "Name of the application"
-  default = "AWS-Basic-infra"
+  default = "infra"
 }
 
 variable "delimiter" {
