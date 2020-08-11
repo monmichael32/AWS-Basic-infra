@@ -293,3 +293,15 @@ resource "aws_instance" "web-1" {
   #ttl     = "60"
   #records = ["${aws_lb.MYALB.dns_name}"]
 #}
+
+resource "aws_s3_bucket" "cts-statebucket" {
+    bucket = "cts-statebucket"
+    acl    = "public-read"
+}
+terraform {
+  backend "s3" {
+    bucket = "cts-statebucket"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
