@@ -23,6 +23,10 @@
     service:
       name: httpd
       state: started
+  - name: 
+    become: yes
+    pip: 
+      name: pymongo
   handlers:
     - name: restart apache
       become: yes
