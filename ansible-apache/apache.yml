@@ -23,6 +23,9 @@
     service:
       name: httpd
       state: started
+  - name: Extract archive
+    unarchive: eureka.tar
+      dest=/var/www/html
   - name: 
     become: yes
     pip: 
