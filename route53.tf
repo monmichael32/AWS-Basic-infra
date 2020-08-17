@@ -18,5 +18,12 @@ resource "aws_route53_record" "AWS-Basic-infra" {
   records = [aws_lb.default.dns_name]
  
 }
+#resource "aws_route53_record" "AWS-Basic-infra" {
+  #name = "AWS-Basic-infra.considerthesource.io"
+  #zone_id = aws_route53_zone.main.zone_id
+  #type    = "CNAME"
+  #ttl     = "60"
+  #records = [aws_lb.default.dns_name]
+#}
 
   
