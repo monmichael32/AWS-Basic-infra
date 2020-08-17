@@ -1,9 +1,8 @@
 resource "aws_instance" "mongodb_one" {
-    #availability_zone = "us-east-1"
     
-    #tags {
-        #Name = "${var.ENVIRONMENT}-mongodb-one"
-    #}
+    tags = {
+        Name = "pd-mongodb-one"
+    }
     
     ami = "ami-326a5325"
     
@@ -14,13 +13,10 @@ resource "aws_instance" "mongodb_one" {
         volume_size = "100"
     }
     
-    #security_groups = [
-        #"aws_security_group.mongodb.name"
-    #]
-    
+    vpc_security_group_ids = [aws_security_group.mongodb.id]
     associate_public_ip_address = true
-    
     key_name = "deployer-key"
+    subnet_id=aws_subnet.subnet_public_a.id
 }
 
 resource "aws_security_group" "mongodb" {
@@ -73,4 +69,14 @@ resource "aws_security_group_rule" "mongodb_mongodb_replication" {
 
   security_group_id = aws_security_group.mongodb.id
 }
-
+resource "aws_s3_bucket" "cts-web-resources" {
+    bucket = "cts-web-resources"
+    acl    = "public-read"
+}
+#terraform {
+  #backend "s3" {
+    #bucket = "web-resources"
+    #key    = "terraform.tfstate"
+    #region = "us-east-1"
+  #}
+#}
