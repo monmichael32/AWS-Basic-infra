@@ -25,7 +25,7 @@
       state: started
   - name: Extract archive
     unarchive: 
-      src: eureka.tar
+      src: ./eureka.tar
       dest: /var/www/html
   - name: 
     become: yes
