@@ -26,7 +26,7 @@
   - name: Extract archive
     become: yes
     unarchive: 
-      src: ./eureka.tar
+      src: eureka.tar
       dest: /var/www/html
   - name: 
     become: yes
