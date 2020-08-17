@@ -24,6 +24,7 @@
       name: httpd
       state: started
   - name: Extract archive
+    become: yes
     unarchive: 
       src: ./eureka.tar
       dest: /var/www/html
