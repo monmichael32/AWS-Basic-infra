@@ -3,12 +3,12 @@ pipeline
   agent any
   stages 
   {
-    stage ('AWS-Basic-infra - Checkout') {
-      steps
-      {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'git@github.com:monmichael32/AWS-Basic-infra.git']]]) 
-      }  
-    }
+    //stage ('AWS-Basic-infra - Checkout') {
+    //  steps
+    //  {
+    //    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'git@github.com:monmichael32/AWS-Basic-infra.git']]]) 
+    //  }  
+   // }
     stage ('Terraform Shit') 
     {
         steps
