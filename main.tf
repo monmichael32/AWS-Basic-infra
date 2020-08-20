@@ -291,6 +291,7 @@ resource "aws_instance" "web-1" {
     #bucket = "cts-statebucket"
     #acl    = "public-read"
 #}
+
 terraform {
   backend "s3" {
     bucket = "cts-statebucket"

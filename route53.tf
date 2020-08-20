@@ -19,11 +19,12 @@ resource "aws_route53_record" "AWS-Basic-infra" {
  
 }
 resource "aws_route53_record" "MongoDB" {
-  name = "MongoDB.considerthesource.io"
+  name = "MongoDB.eureka.considerthesource.io"
   zone_id = aws_route53_zone.main.zone_id
-  type    = "CNAME"
+  type    = "A"
   ttl     = "60"
-  records = [aws_instance.mongodb_one.public_dns]
+  records = [aws_instance.mongodb_one.public_ip]
+  #records = aws_route53_record.MongoDB.records
 }
 
   

@@ -72,11 +72,33 @@ resource "aws_security_group_rule" "mongodb_mongodb_replication" {
 resource "aws_s3_bucket" "cts-web-resources" {
     bucket = "cts-web-resources"
     acl    = "public-read"
+    #policy = file("policy.json") 
+    
+    website {
+       index_document = "index.html"
+       error_document = "error.html"
 }
+}
+
+resource "aws_lb_target_group_attachment" "mongodb_one" {
+  target_group_arn = aws_lb_target_group.default.arn
+  target_id = aws_instance.mongodb_one.private_ip
+  port = 27017
+}
+
+#data "terraform_remote_state" "network" {
+  #backend = "s3"
+  #config = {
+    #bucket = "cts-web-resources"
+    #key    = "anaible-apache/files/eureka.tar"
+    #region = "us-east-1"
+  #}
+#}
+
 #terraform {
-  #backend "s3" {
-    #bucket = "web-resources"
-    #key    = "terraform.tfstate"
+  #backend "consul" {
+    #bucket = "cts-web-resources"
+    #key    = "eureka.tar"
     #region = "us-east-1"
   #}
 #}
