@@ -113,6 +113,44 @@ resource "aws_lb_target_group" "default" {
   )
 }
 
+resource "aws_lb_target_group" "db_tg" {
+  name                 = var.target_group_name == "" ? module.default_target_group_label.id : var.target_group_name
+  port                 = var.target_group_port 
+  protocol             = var.target_group_protocol
+  vpc_id               = aws_vpc.vpc.id
+  target_type          = var.target_group_target_type
+  deregistration_delay = var.deregistration_delay
+  
+  health_check {
+    protocol            = var.target_group_protocol
+    path                = var.health_check_path
+    timeout             = var.health_check_timeout
+    healthy_threshold   = var.health_check_healthy_threshold
+    unhealthy_threshold = var.health_check_unhealthy_threshold
+    interval            = var.health_check_interval
+    matcher             = var.health_check_matcher
+  } 
+  
+  dynamic "stickiness" {
+    for_each = var.stickiness == null ? [] : [var.stickiness]
+    content {
+      type            = "lb_cookie"
+      cookie_duration = stickiness.value.cookie_duration
+      enabled         = var.target_group_protocol == "TCP" ? false : stickiness.value.enabled
+    } 
+  } 
+  
+  lifecycle {
+    create_before_destroy = true
+  } 
+  
+  tags = merge(
+    module.default_target_group_label.tags,
+    var.target_group_additional_tags
+  ) 
+} 
+
+
 resource "aws_lb_target_group_attachment" "web-1" {
   target_group_arn = aws_lb_target_group.default.arn
   target_id = aws_instance.web-1.private_ip

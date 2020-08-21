@@ -81,7 +81,7 @@ resource "aws_s3_bucket" "cts-web-resources" {
 }
 
 resource "aws_lb_target_group_attachment" "mongodb_one" {
-  target_group_arn = aws_lb_target_group.default.arn
+  target_group_arn = aws_lb_target_group.db_tg.arn
   target_id = aws_instance.mongodb_one.private_ip
   port = 27017
 }
