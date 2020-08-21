@@ -52,8 +52,8 @@ resource "aws_security_group_rule" "mongodb_ssh" {
 
 resource "aws_security_group_rule" "mongodb_mongodb" {
   type            = "ingress"
-  from_port       = 28017
-  to_port         = 28017
+  from_port       = 27017
+  to_port         = 27017
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
 
@@ -62,8 +62,8 @@ resource "aws_security_group_rule" "mongodb_mongodb" {
 
 resource "aws_security_group_rule" "mongodb_mongodb_replication" {
   type            = "ingress"
-  from_port       = 28019
-  to_port         = 28019
+  from_port       = 27019
+  to_port         = 27019
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
 
@@ -81,9 +81,9 @@ resource "aws_s3_bucket" "cts-web-resources" {
 }
 
 resource "aws_lb_target_group_attachment" "mongodb_one" {
-  target_group_arn = aws_lb_target_group.db_tg.arn
+  target_group_arn = aws_lb_target_group.pennypinchers.arn
   target_id = aws_instance.mongodb_one.private_ip
-  port = 28017
+  port = 27017
 }
 
 #data "terraform_remote_state" "network" {

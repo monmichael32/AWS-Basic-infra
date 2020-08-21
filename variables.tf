@@ -189,6 +189,12 @@ variable "target_group_port" {
   default     = 80
   description = "The port for the default target group"
 }
+ 
+variable "db_target_group_port" {
+  type           =number
+  default        =27017
+  description    ="Database target group port I don't know what that means"
+}
 
 variable "target_group_protocol" {
   type        = string

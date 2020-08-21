@@ -113,9 +113,9 @@ resource "aws_lb_target_group" "default" {
   )
 }
 
-resource "aws_lb_target_group" "db_tg" {
-  name                 = var.target_group_name == "" ? module.default_target_group_label.id : var.target_group_name
-  port                 = var.target_group_port 
+resource "aws_lb_target_group" "pennypinchers" {
+  name                 = "pennypinchers"
+  port                 = var.db_target_group_port 
   protocol             = var.target_group_protocol
   vpc_id               = aws_vpc.vpc.id
   target_type          = var.target_group_target_type
@@ -153,11 +153,11 @@ resource "aws_lb_target_group" "db_tg" {
 resource "aws_lb_listener" "db_forward" {
   count             = var.http_enabled && var.http_redirect != true ? 1 : 0
   load_balancer_arn = aws_lb.default.arn
-  port              = 28017
+  port              = 27017
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_lb_target_group.db_tg.arn
+    target_group_arn = aws_lb_target_group.pennypinchers.arn
     type             = "forward"
   }
 }
