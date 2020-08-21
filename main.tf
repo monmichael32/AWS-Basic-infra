@@ -58,7 +58,6 @@ resource "aws_lb" "default" {
  #)
 
   subnets                          = [aws_subnet.subnet_public_a.id,aws_subnet.subnet_public_b.id] #var.subnet_ids
-  enable_cross_zone_load_balancing = var.cross_zone_load_balancing_enabled
   enable_http2                     = var.http2_enabled
   idle_timeout                     = var.idle_timeout
   ip_address_type                  = var.ip_address_type

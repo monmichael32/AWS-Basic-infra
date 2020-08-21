@@ -118,30 +118,6 @@ variable "https_ssl_policy" {
   default     = "ELBSecurityPolicy-2015-05"
 }
 
-variable "access_logs_prefix" {
-  type        = string
-  default     = ""
-  description = "The S3 log bucket prefix"
-}
-
-variable "access_logs_enabled" {
-  type        = bool
-  default     = true
-  description = "A boolean flag to enable/disable access_logs"
-}
-
-variable "access_logs_region" {
-  type        = string
-  default     = "us-east-1"
-  description = "The region for the access_logs S3 bucket"
-}
-
-variable "cross_zone_load_balancing_enabled" {
-  type        = bool
-  default     = true
-  description = "A boolean flag to enable/disable cross zone load balancing"
-}
-
 variable "http2_enabled" {
   type        = bool
   default     = true
@@ -206,12 +182,6 @@ variable "health_check_matcher" {
   type        = string
   default     = "200-399"
   description = "The HTTP response codes to indicate a healthy check"
-}
-
-variable "alb_access_logs_s3_bucket_force_destroy" {
-  type        = bool
-  default     = false
-  description = "A boolean that indicates all objects should be deleted from the ALB access logs S3 bucket so that the bucket can be destroyed without error"
 }
 
 variable "target_group_port" {
