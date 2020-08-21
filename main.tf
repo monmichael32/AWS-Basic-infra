@@ -130,7 +130,7 @@ resource "aws_lb_target_group" "db_tg" {
     interval            = var.health_check_interval
     matcher             = var.health_check_matcher
   } 
-  
+
   dynamic "stickiness" {
     for_each = var.stickiness == null ? [] : [var.stickiness]
     content {
@@ -150,6 +150,17 @@ resource "aws_lb_target_group" "db_tg" {
   ) 
 } 
 
+resource "aws_lb_listener" "db_forward" {
+  count             = var.http_enabled && var.http_redirect != true ? 1 : 0
+  load_balancer_arn = aws_lb.default.arn
+  port              = 28017
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.db_tg.arn
+    type             = "forward"
+  }
+}
 
 resource "aws_lb_target_group_attachment" "web-1" {
   target_group_arn = aws_lb_target_group.default.arn
