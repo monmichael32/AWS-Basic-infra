@@ -3,7 +3,7 @@ resource "aws_instance" "mongodb_one" {
     tags = {
         Name = "pd-mongodb-one"
     }
-    
+    subnet_id="subnet-0a995e300bffcc391"
     ami = "ami-326a5325"
     
     instance_type = "t2.micro"

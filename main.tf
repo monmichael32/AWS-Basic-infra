@@ -5,11 +5,14 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "cts-statebucket"
-    key    = "terraform.tfstate"
+    key    = "s3://cts-statebucket/YoMama/terraform.tfstate"
     region = "us-east-1"
   }
 }
 
+#module "new-AWS-Basic-infra" {
+  #source      = "git::https://github.com/monmichael32/new-AWS-Basic-infra.git"
+#}
 
 module "default_label" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
@@ -60,13 +63,15 @@ resource "aws_lb" "default" {
   internal           = var.internal
   load_balancer_type = "application"
 
-  security_groups = [aws_security_group.web_rules.id]
+  #security_groups = [aws_security_group.web_rules.sg-08343d046fcafb32e]
+  security_groups = ["sg-0c0ea473548739c09"]
 
   #security_groups = compact(
     #concat(var.security_group_ids, [aws_security_group.default.id]),
  #)
 
-  subnets                          = [aws_subnet.subnet_public_a.id,aws_subnet.subnet_public_b.id] #var.subnet_ids
+  #subnets                          = [aws_subnet.subnet_public_a.id,aws_subnet.subnet_public_b.id] #var.subnet_ids
+  subnets                          = ["subnet-09c1dddc913c0343d","subnet-0a995e300bffcc391"] #var.subnet_ids
   enable_http2                     = var.http2_enabled
   idle_timeout                     = var.idle_timeout
   ip_address_type                  = var.ip_address_type
@@ -89,7 +94,7 @@ resource "aws_lb_target_group" "default" {
   name                 = var.target_group_name == "" ? module.default_target_group_label.id : var.target_group_name
   port                 = var.target_group_port
   protocol             = var.target_group_protocol
-  vpc_id               = aws_vpc.vpc.id
+  vpc_id               = "vpc-0efd49d241b4528a6"
   target_type          = var.target_group_target_type
   deregistration_delay = var.deregistration_delay
 
@@ -126,7 +131,7 @@ resource "aws_lb_target_group" "pennypinchers" {
   name                 = "pennypinchers"
   port                 = var.db_target_group_port 
   protocol             = var.target_group_protocol
-  vpc_id               = aws_vpc.vpc.id
+  vpc_id               = "vpc-0efd49d241b4528a6"
   target_type          = var.target_group_target_type
   deregistration_delay = var.deregistration_delay
   
@@ -232,20 +237,24 @@ resource "aws_lb_listener" "https" {
 resource "aws_instance" "web-2" {
   ami      = "ami-0a7f1556c36aaf776"
   instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web_rules.id,aws_security_group.ssh_rules.id]
+  #vpc_security_group_ids = [aws_security_group.web_rules.id,aws_security_group.ssh_rules.id]
+  vpc_security_group_ids = ["sg-0c0ea473548739c09","sg-09a35bc544d2d1d8a"]
   key_name = "deployer-key"
-  depends_on=[aws_internet_gateway.igw]
-  subnet_id=aws_subnet.subnet_public_a.id
+  #depends_on=[aws_internet_gateway.igw]
+  #depends_on=[igw-0af98f4b272665cd4]
+  subnet_id="subnet-09c1dddc913c0343d"
  }
 
 
 resource "aws_instance" "web-1" {
  ami      = "ami-0a7f1556c36aaf776"
  instance_type = "t2.micro"
- vpc_security_group_ids = [aws_security_group.ssh_rules.id,aws_security_group.web_rules.id]
+ #vpc_security_group_ids = [aws_security_group.ssh_rules.id,aws_security_group.web_rules.id] 
+  vpc_security_group_ids = ["sg-0c0ea473548739c09","sg-09a35bc544d2d1d8a"]
   key_name = "deployer-key"
-  depends_on=[aws_internet_gateway.igw]
-  subnet_id=aws_subnet.subnet_public_b.id
+  #depends_on=[aws_internet_gateway.igw]
+  #depends_on="igw-0a8b26222d5ca77e9"
+  subnet_id="subnet-0a995e300bffcc391"
 }
 
 #resource "aws_s3_bucket" "cts-statebucket" {
@@ -253,10 +262,3 @@ resource "aws_instance" "web-1" {
     #acl    = "public-read"
 #}
 
-#terraform {
-  #backend "s3" {
-    #bucket = "cts-statebucket"
-    #key    = "terraform.tfstate"
-    #region = "us-east-1"
-  #}
-#}

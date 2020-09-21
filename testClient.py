@@ -8,20 +8,16 @@ except ConnectionFailure:
    print("Server not available")
 
 mydatabase = client.mongodb_one
-students = [ {'name': 'Audi', 'price': 52642},
-    {'name': 'Mercedes', 'price': 57127},
-    {'name': 'Skoda', 'price': 9000},
-    {'name': 'Volvo', 'price': 29000},
-    {'name': 'Bentley', 'price': 350000},
-    {'name': 'Citroen', 'price': 21000},
-    {'name': 'Hummer', 'price': 41400},
-    {'name': 'Volkswagen', 'price': 21600} ]
+students = [ {'name': 'Billy', 'ID': 52642},
+    {'name': 'Bob', 'ID': 57127},
+    {'name': 'Joe', 'ID': 9000},
+    {'name': 'Yohoho', 'ID': 29000},
+    {'name': 'Ben', 'ID': 350000},
+    {'name': 'Charlotte', 'ID': 21000},
+    {'name': 'Humphrey', 'ID': 41400},
+    {'name': 'Beans', 'ID': 21600} ]
 mydatabase = client.test
 mydatabase.students.insert_many(students)
-#mydatabase.collection_names()   
-#mydatabase.list_collection_names()
 collections = mydatabase.list_collection_names()
 print(collections)
-#print(mydatbase.collectionnames())
-#client.create_collection("Names") 
 ~                                   
